@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrjaRise - πLearn Progress Tracking</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== BASE & RESET STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #0b0c10;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fixed Background Canvas for Shooting Lines & Twinkling Stars */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Ambient Glow Blobs */
+        .glow-bg {
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(235, 102, 15, 0.28) 0%, rgba(11, 12, 16, 0) 70%);
+            top: -150px;
+            left: -150px;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-bg-2 {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 123, 0, 0.15) 0%, rgba(11, 12, 16, 0) 70%);
+            bottom: 0px;
+            right: -100px;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ==================== NAVBAR ==================== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #ff7b00, #e65100);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .logo-subtitle {
+            font-size: 10px;
+            color: #8a8d93;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #c5c6c7;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff7b00;
+        }
+
+        /* ==================== COMMON SECTIONS ==================== */
+        section {
+            padding: 80px 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+        }
+
+        .section-tag {
+            background: rgba(255, 123, 0, 0.12);
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            color: #ff7b00;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .section-title span {
+            color: #ff7b00;
+        }
+
+        .section-subtitle {
+            color: #8a8d93;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .hero-left {
+            max-width: 550px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 123, 0, 0.1);
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ff8c2b;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ff7b00;
+            border-radius: 50%;
+        }
+
+        .hero-title {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .hero-title span {
+            color: #ff7b00;
+        }
+
+        .hero-description {
+            color: #9a9db0;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff7b00, #e65100);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 10px 20px rgba(255, 123, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(255, 123, 0, 0.4);
+        }
+
+        /* Hero Right Preview Frame */
+        .hero-right {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .teacher-floating-card {
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            background: rgba(22, 24, 31, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .teacher-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ff7b00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-card {
+            background: rgba(18, 20, 26, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .stat-val {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff7b00;
+        }
+
+        .progress-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .progress-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .bar-bg {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #ff7b00;
+            border-radius: 3px;
+        }
+
+        /* ==================== FEATURE CARDS ==================== */
+        .cards-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(18, 20, 26, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 28px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 123, 0, 0.4);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            background: #ff7b00;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #8a8d93;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ==================== TIMELINE & STATS ==================== */
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .timeline-grid::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: rgba(255, 123, 0, 0.3);
+            z-index: 0;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-header {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #ff7b00;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #0b0c10;
+        }
+
+        .stats-banner {
+            background: rgba(18, 20, 26, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .stats-banner-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-large-num {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ff7b00;
+            margin-bottom: 8px;
+        }
+
+        .stat-large-desc {
+            font-size: 13px;
+            color: #8a8d93;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: rgba(8, 9, 12, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 80px 80px 40px 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p {
+            color: #8a8d93;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 20px 0;
+            max-width: 320px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c5c6c7;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .social-btn:hover {
+            background: #ff7b00;
+            color: #fff;
+        }
+
+        .footer-col h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-col a {
+            color: #8a8d93;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: #ff7b00;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            color: #6a6d73;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            section, nav, footer {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            .hero {
+                flex-direction: column;
+            }
+            .cards-grid-3, .timeline-grid, .stats-banner-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid-3, .timeline-grid, .stats-banner-grid, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Overlay Canvas for Sparkle Stars & Glowing Lines -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Glowing Background Glows -->
+    <div class="glow-bg"></div>
+    <div class="glow-bg-2"></div>
+
+    <div class="wrapper">
+        <!-- NAVIGATION -->
+        <nav>
+            <div class="logo-container">
+                <div class="logo-icon">π</div>
+                <div>
+                    <div class="logo-title">UrjaRise</div>
+                    <div class="logo-subtitle">πLEARN · PROGRESS TRACKING</div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#connect">Connect</a></li>
+                <li><a href="#why">Why UrjaRise</a></li>
+                <li><a href="#track">Stay on track</a></li>
+            </ul>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-left">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    πLearn's student progress companion
+                </div>
+                <h1 class="hero-title">Helping every student <span>stay on track</span></h1>
+                <p class="hero-description">
+                    UrjaRise is how πLearn connects teachers with students and keeps their progress clearly visible — so your child stays focused on their studies, well after the lesson is over.
+                </p>
+                <a href="auth.html" class="btn-primary">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="hero-right">
+                <div class="teacher-floating-card">
+                    <div class="teacher-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Shashank Sir</div>
+                        <div style="font-size: 11px; color: #8a8d93;">Connected · 2 messages</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div style="font-size: 11px; color: #7a7d85; text-transform: uppercase;">»Learn · Student Progress</div>
+                    <div style="font-size: 20px; font-weight: 700; margin-top: 4px;">Aarav's grade tracker</div>
+
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div style="font-size: 11px; color: #8a8d93;">Overall progress</div>
+                            <div class="stat-val">78%</div>
+                            <div style="font-size: 10px; color: #4caf50; margin-top: 2px;">+6% this week</div>
+                        </div>
+                        <div class="stat-box">
+                            <div style="font-size: 11px; color: #8a8d93;">Focus streak</div>
+                            <div class="stat-val">12 days</div>
+                            <div style="font-size: 10px; color: #8a8d93; margin-top: 2px;">Keep it up!</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-list">
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Mathematics</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 82%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Physics</span>
+                                <span>74%</span>
+                            </div>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 74%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Python</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE SECTION 1 -->
+        <section id="connect">
+            <div class="section-header">
+                <span class="section-tag">Built to connect</span>
+                <h2 class="section-title">A bridge between <span>teachers & students</span></h2>
+                <p class="section-subtitle">UrjaRise keeps teachers, students and parents connected — and makes every step of the learning journey easy to see.</p>
+            </div>
+
+            <div class="cards-grid-3">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-link"></i></div>
+                    <h3>Teachers connect with students</h3>
+                    <p>A single, friendly space where teachers and students stay in sync — notes, updates and encouragement flow both ways.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Progress, tracked automatically</h3>
+                    <p>Every session, test and homework is logged so improvement is visible at a glance — no guesswork, no spreadsheets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3>Always in the loop</h3>
+                    <p>Parents and teachers see the same clear picture, so everyone can support the student together.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE SECTION 2 -->
+        <section id="why">
+            <div class="section-header">
+                <span class="section-tag">Why UrjaRise</span>
+                <h2 class="section-title">Built so children <span>stay focused</span></h2>
+                <p class="section-subtitle">Learning doesn't stop when the lesson ends. UrjaRise keeps the momentum going so every student keeps studying and improving — at home and beyond.</p>
+            </div>
+
+            <div class="cards-grid-3" style="margin-bottom: 24px;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-link"></i></div>
+                    <h3>Teacher–Student Connection</h3>
+                    <p>Teachers and students stay in one shared space — notes, reminders and encouragement move both ways, so support never falls through.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Progress, Always Visible</h3>
+                    <p>Sessions, tests and homework are logged automatically, so improvement is easy to see at a glance for students, parents and mentors.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <h3>Stay Focused After Tuition</h3>
+                    <p>UrjaRise keeps the study momentum going at home, so your child keeps revising and practising long after the lesson ends.</p>
+                </div>
+            </div>
+
+            <div class="cards-grid-3">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3>A Clear Picture for Parents</h3>
+                    <p>Parents see exactly how their child is doing, without asking. Everyone stays informed and on the same page.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                    <h3>Gentle, Helpful Reminders</h3>
+                    <p>Friendly nudges keep study habits on track — without pressure. Just the right amount of encouragement at the right time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                    <h3>Flexible Study Routine</h3>
+                    <p>Fit tracking around any schedule with online and offline options, so consistent progress is easy to maintain.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS TIMELINE & STATS -->
+        <section id="track">
+            <div class="section-header">
+                <span class="section-tag">How it works</span>
+                <h2 class="section-title">How your child <span>stays on track</span></h2>
+                <p class="section-subtitle">From the moment a lesson ends to the next one, UrjaRise keeps the study routine alive — so progress is steady, visible and consistent.</p>
+            </div>
+
+            <div class="timeline-grid">
+                <div class="feature-card timeline-step">
+                    <div class="step-header">
+                        <div class="feature-icon"><i class="fa-solid fa-link"></i></div>
+                        <span class="step-number">01</span>
+                    </div>
+                    <h3>Connect</h3>
+                    <p>Teachers link up with each student in UrjaRise to create a shared learning space.</p>
+                </div>
+
+                <div class="feature-card timeline-step">
+                    <div class="step-header">
+                        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <span class="step-number">02</span>
+                    </div>
+                    <h3>Track</h3>
+                    <p>Every session, test and homework is captured so progress is measured and clear.</p>
+                </div>
+
+                <div class="feature-card timeline-step">
+                    <div class="step-header">
+                        <div class="feature-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                        <span class="step-number">03</span>
+                    </div>
+                    <h3>Practise</h3>
+                    <p>Students keep revising at their own pace, guided by reminders and focused tasks.</p>
+                </div>
+
+                <div class="feature-card timeline-step">
+                    <div class="step-header">
+                        <div class="feature-icon"><i class="fa-solid fa-circle-arrow-up"></i></div>
+                        <span class="step-number">04</span>
+                    </div>
+                    <h3>Grow</h3>
+                    <p>Improvement stays visible beyond tuition, so focus and confidence keep building.</p>
+                </div>
+            </div>
+
+            <!-- Stats Banner -->
+            <div class="stats-banner">
+                <div class="stats-banner-grid">
+                    <div>
+                        <div class="stat-large-num">100%</div>
+                        <div class="stat-large-desc">Progress visibility</div>
+                    </div>
+                    <div>
+                        <div class="stat-large-num">24/7</div>
+                        <div class="stat-large-desc">Study support</div>
+                    </div>
+                    <div>
+                        <div class="stat-large-num">5.0★</div>
+                        <div class="stat-large-desc">Parent rating</div>
+                    </div>
+                    <div>
+                        <div class="stat-large-num">↑ 34%</div>
+                        <div class="stat-large-desc">Avg. focus boost</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px; font-size: 13px; color: #8a8d93; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px;">
+                    See how UrjaRise keeps your child's studies moving, even after the tuition ends.
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-container">
+                        <div class="logo-icon">π</div>
+                        <div>
+                            <div class="logo-title">UrjaRise</div>
+                            <div class="logo-subtitle">πLEARN · PROGRESS TRACKING</div>
+                        </div>
+                    </div>
+                    <p>UrjaRise is πLearn's progress-tracking companion — connecting teachers with students so every child stays focused and improving on their studies, even after the lesson ends.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="social-btn"><i class="fa-brands fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Connect</a></li>
+                        <li><a href="#">Progress tracking</a></li>
+                        <li><a href="#">Stay on track</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Parents</h4>
+                    <ul>
+                        <li><a href="#">Track progress</a></li>
+                        <li><a href="#">Focus & study habits</a></li>
+                        <li><a href="#">Stay informed</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Teachers</h4>
+                    <ul>
+                        <li><a href="#">Connect with students</a></li>
+                        <li><a href="#">Session insights</a></li>
+                        <li><a href="#">Share updates</a></li>
+                        <li><a href="#">Mentor notes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help centre</a></li>
+                        <li><a href="#">How it works</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 UrjaRise · πLearn. All rights reserved.</div>
+                <div>Helping every student stay on track <span style="color: #ff7b00;">🧡</span></div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT ANIMATIONS: BRIGHT TWINKLING STARS & MOVING SHOOTING LINES -->
+    <script>
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // 1. Bright Sparkle Stars Class
+        class SparkleStar {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 12 + 6; // Bigger & brighter sizes
+                this.opacity = Math.random();
+                this.speed = Math.random() * 0.03 + 0.01;
+                this.growing = Math.random() > 0.5;
+            }
+
+            update() {
+                if (this.growing) {
+                    this.opacity += this.speed;
+                    if (this.opacity >= 1) this.growing = false;
+                } else {
+                    this.opacity -= this.speed;
+                    if (this.opacity <= 0.1) this.growing = true;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.globalAlpha = this.opacity;
+
+                // Radial Glow Effect Around Star
+                const glowGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 1.5);
+                glowGradient.addColorStop(0, 'rgba(255, 180, 80, 0.9)');
+                glowGradient.addColorStop(0.5, 'rgba(255, 120, 0, 0.4)');
+                glowGradient.addColorStop(1, 'rgba(255, 120, 0, 0)');
+
+                ctx.fillStyle = glowGradient;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.size * 1.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 4-Point Sharp Vector Star
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                for (let i = 0; i < 4; i++) {
+                    ctx.lineTo(0, -this.size);
+                    ctx.quadraticCurveTo(0, 0, this.size / 4, 0);
+                    ctx.rotate(Math.PI / 2);
+                }
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // 2. Continuous Moving Light Rays/Shooting Lines Class
+        class ShootingLine {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * (canvas.width + 300) - 150;
+                this.y = Math.random() * (canvas.height + 300) - 150;
+                this.length = Math.random() * 160 + 80; // Longer trail lines
+                this.speed = Math.random() * 3 + 1.5; // Faster line speed
+                this.angle = -Math.PI / 6; // Diagonal upward-right movement
+                this.thickness = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.7 + 0.3;
+            }
+
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+
+                // Loop infinitely when off screen
+                if (this.x > canvas.width + 200 || this.y < -200) {
+                    this.reset();
+                    this.x = Math.random() * canvas.width - 200;
+                    this.y = canvas.height + 100;
+                }
+            }
+
+            draw() {
+                const endX = this.x - Math.cos(this.angle) * this.length;
+                const endY = this.y - Math.sin(this.angle) * this.length;
+
+                const gradient = ctx.createLinearGradient(this.x, this.y, endX, endY);
+                gradient.addColorStop(0, `rgba(255, 220, 150, ${this.opacity})`);
+                gradient.addColorStop(0.3, `rgba(255, 123, 0, ${this.opacity * 0.8})`);
+                gradient.addColorStop(1, 'rgba(255, 123, 0, 0)');
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = this.thickness;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                // Glowing tip at head of the moving line
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.thickness * 1.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // Initialize larger quantity of stars and moving lines
+        const stars = Array.from({ length: 50 }, () => new SparkleStar());
+        const lines = Array.from({ length: 35 }, () => new ShootingLine());
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Render Stars
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            // Render Shooting Lines
+            lines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+:root {
+    --bg-dark: #0b0f1a;
+    --card-bg: rgba(22, 27, 38, 0.85);
+    --input-bg: #1c2331;
+    --text-main: #ffffff;
+    --text-muted: #8b949e;
+    --primary-gradient: linear-gradient(90deg, #ff8c42, #f06292, #ba68c8);
+    --orange-glow: #ff8c42;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(-45deg, #0b0f1a, #2a0826, #4a154b, #20002c, #0b0f1a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    padding: 20px 0;
+}
+
+/* --- VIBRANT GRADIENT MESH OVERLAY --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250%;
+    height: 250%;
+    z-index: -3;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(1.5px 1.5px at 30px 50px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 90px 180px, #f06292, transparent),
+        radial-gradient(2px 2px at 150px 90px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 230px 320px, #ff8c42, transparent),
+        radial-gradient(2px 2px at 310px 140px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 390px 270px, #ba68c8, transparent),
+        radial-gradient(2px 2px at 470px 80px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 540px 390px, #ff8c42, transparent),
+        radial-gradient(2px 2px at 620px 210px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 700px 70px, #f06292, transparent),
+        radial-gradient(2px 2px at 780px 310px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 850px 180px, #ba68c8, transparent),
+        radial-gradient(2px 2px at 920px 410px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 990px 120px, #ff8c42, transparent),
+        radial-gradient(2px 2px at 1060px 290px, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 1130px 60px, #f06292, transparent);
+    background-size: 400px 400px;
+    animation: moveStars 18s linear infinite;
+}
+
+/* Layer 2: High Density Medium Glowing & Twinkling Stars */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250%;
+    height: 250%;
+    z-index: -2;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(2.5px 2.5px at 50px 110px, #ffffff, transparent),
+        radial-gradient(3px 3px at 160px 280px, #ff8c42, transparent),
+        radial-gradient(2.5px 2.5px at 270px 60px, #ffffff, transparent),
+        radial-gradient(3px 3px at 380px 340px, #f06292, transparent),
+        radial-gradient(2.5px 2.5px at 490px 150px, #ffffff, transparent),
+        radial-gradient(3px 3px at 600px 380px, #ba68c8, transparent),
+        radial-gradient(2.5px 2.5px at 710px 120px, #ffffff, transparent),
+        radial-gradient(3px 3px at 820px 290px, #ff8c42, transparent),
+        radial-gradient(2.5px 2.5px at 930px 40px, #ffffff, transparent),
+        radial-gradient(3px 3px at 1040px 230px, #f06292, transparent);
+    background-size: 350px 350px;
+    animation: moveStarsSlow 30s linear infinite, twinkle 3s ease-in-out infinite alternate;
+}
+
+/* Layer 3: Floating Unique Shapes (4-Point Stars, Diamond Sparkles, Cross Stars) */
+.background-glow {
+    position: fixed;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform, opacity;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Shape 1: 4-Point Sparkle Star (Orange Glow) */
+.top-left {
+    width: 34px;
+    height: 34px;
+    top: 15%;
+    left: 10%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff8c42"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>');
+    filter: drop-shadow(0 0 14px #ff8c42);
+    animation: floatShapeOne 16s ease-in-out infinite alternate;
+}
+
+/* Shape 2: Diamond Sparkle Star (Purple Glow) */
+.bottom-right {
+    width: 30px;
+    height: 30px;
+    bottom: 20%;
+    right: 12%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ba68c8"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/></svg>');
+    filter: drop-shadow(0 0 16px #ba68c8);
+    animation: floatShapeTwo 20s ease-in-out infinite alternate;
+}
+
+/* Shape 3: Thin Cross Sparkle Star (Pink Glow) */
+.center-burst {
+    width: 38px;
+    height: 38px;
+    top: 60%;
+    left: 20%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f06292"><path d="M12 0L13 11L24 12L13 13L12 24L11 13L0 12L11 11Z"/></svg>');
+    filter: drop-shadow(0 0 18px #f06292);
+    animation: floatShapeThree 14s ease-in-out infinite alternate;
+}
+
+/* --- KEYFRAME ANIMATIONS --- */
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes moveStars {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-200px, -200px); }
+}
+
+@keyframes moveStarsSlow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(175px, -175px); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 1; }
+}
+
+@keyframes floatShapeOne {
+    0% { transform: translate(0, 0) rotate(0deg) scale(0.8); opacity: 0.5; }
+    50% { transform: translate(90px, 70px) rotate(90deg) scale(1.3); opacity: 1; }
+    100% { transform: translate(-50px, 130px) rotate(180deg) scale(0.9); opacity: 0.6; }
+}
+
+@keyframes floatShapeTwo {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.8; }
+    50% { transform: translate(-110px, -60px) rotate(-90deg) scale(0.7); opacity: 0.4; }
+    100% { transform: translate(60px, -120px) rotate(-180deg) scale(1.2); opacity: 1; }
+}
+
+@keyframes floatShapeThree {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1.1); opacity: 0.6; }
+    50% { transform: translate(80px, -90px) rotate(120deg) scale(0.8); opacity: 1; }
+    100% { transform: translate(-70px, 50px) rotate(240deg) scale(1.4); opacity: 0.5; }
+}
+
+/* --- CONTAINER & BRAND BANNER --- */
+.container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    text-align: center;
+    z-index: 10;
+}
+
+.logo-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    background: var(--primary-gradient);
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+.brand-banner {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.brand-banner img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- CARD & FORM COMPONENTS --- */
+.auth-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.tabs {
+    background: var(--input-bg);
+    border-radius: 10px;
+    display: flex;
+    padding: 4px;
+    margin-bottom: 25px;
+}
+
+.tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab.active {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.google-btn {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    color: #1c2331;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.google-btn:hover {
+    background: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--text-muted);
+}
+
+.divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.input-group input {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 15px 14px 45px;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+}
+
+.toggle-password {
+    left: auto !important;
+    right: 15px;
+    cursor: pointer;
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--orange-glow);
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.footer-text a {
+    color: var(--orange-glow);
+    text-decoration: none;
+}
+
+.terms {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+}

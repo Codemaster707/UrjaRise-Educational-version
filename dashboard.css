@@ -1,0 +1,15 @@
+/* STREAMING_CHUNK:Adding supplementary custom styles and animations... */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Additional smooth transition and focus styling */
+input, button {
+transition: all 0.2s ease-in-out;
+}
+
+.glass-card {
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+box-shadow: 0 10px 25px -5px rgba(255, 87, 34, 0.08), 0 8px 10px -6px rgba(255, 87, 34, 0.08);
+}

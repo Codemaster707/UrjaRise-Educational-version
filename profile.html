@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your UrjaRise Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Floating Background Particles Container -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <div class="page-container">
+        <!-- Top Navigation / Header -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-bell"></i></div>
+                <div class="logo-text">
+                    <h1>UrjaRise</h1>
+                    <p>RISE EVERY DAY. TRACK EVERY WIN.</p>
+                </div>
+            </div>
+            <div class="setup-badge">
+                <span class="dot"></span> Setup takes about 2 minutes
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="welcome-pill">
+                <i class="fa-solid fa-droplet"></i> WELCOME TO URJARISE
+            </div>
+            <h2>Build Your <span class="gradient-text">UrjaRise</span> Profile</h2>
+            <p class="subtitle">Tell us about yourself so we can personalize your growth journey.</p>
+            
+            <div class="photo-upload-container">
+                <div class="photo-circle" id="photoCircle">
+                    <!-- Google Profile Photo Image element -->
+                    <img id="profileImage" src="" alt="Profile Photo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;">
+                    <i class="fa-solid fa-user" id="defaultUserIcon"></i>
+                </div>
+                <span>YOUR PHOTO</span>
+            </div>
+        </section>
+
+        <!-- Step Indicator Card -->
+        <div class="card step-card">
+            <div class="step-header">
+                <div class="step-title-area">
+                    <span class="step-number">1</span>
+                    <span class="step-info">Step 1 of 2 — <strong>About You</strong></span>
+                </div>
+                <span class="progress-text">50% complete</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Main Form Container -->
+        <form id="profileForm">
+            
+            <!-- SECTION 1: Basic Information -->
+            <div class="card form-section-card">
+                <div class="section-heading">
+                    <div class="section-icon"><i class="fa-regular fa-face-smile"></i></div>
+                    <div>
+                        <span class="section-tag">SECTION 1</span>
+                        <h3>Basic Information</h3>
+                        <p class="section-desc">The essentials that make your profile yours.</p>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>What's your name? <span class="required">*</span></label>
+                    <input type="text" id="fullName" placeholder="e.g. Aarav Sharma" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Choose your UrjaRise username <span class="required">*</span> <span class="input-hint">Letters, numbers and underscores</span></label>
+                    <div class="username-wrapper">
+                        <span class="prefix">@</span>
+                        <input type="text" id="username" placeholder="username" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Class / Grade</label>
+                    <div class="select-wrapper">
+                        <select id="classGrade">
+                            <option value="" disabled selected>Select your class</option>
+                            <option value="1">Class 1</option>
+                            <option value="2">Class 2</option>
+                            <option value="3">Class 3</option>
+                            <option value="4">Class 4</option>
+                            <option value="5">Class 5</option>
+                            <option value="6">Class 6</option>
+                            <option value="7">Class 7</option>
+                            <option value="8">Class 8</option>
+                            <option value="9">Class 9</option>
+                            <option value="10">Class 10</option>
+                            <option value="11">Class 11</option>
+                            <option value="12">Class 12</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Academic Profile -->
+            <div class="card form-section-card">
+                <div class="section-heading">
+                    <div class="section-icon"><i class="fa-regular fa-folder"></i></div>
+                    <div>
+                        <span class="section-tag">SECTION 2</span>
+                        <h3>Academic Profile</h3>
+                        <p class="section-desc">Type your own subjects — no rigid lists, just what fits you.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <label>What's your strongest subject?</label>
+                        <input type="text" id="strongestSubject" placeholder="e.g. Physics" class="highlight-input">
+                    </div>
+                    <!-- Corrected spelling and typography section -->
+                    <div class="input-group">
+                        <label>What's your favorite subject?</label>
+                        <input type="text" id="favouriteSubject" placeholder="e.g. Mathematics">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Which subject do you want to improve?</label>
+                    <input type="text" id="improvementSubject" placeholder="e.g. Chemistry">
+                </div>
+
+                <div class="input-group learning-styles-group">
+                    <div class="label-row">
+                        <label>How do you like to learn?</label>
+                        <span class="limit-text">Up to 3</span>
+                    </div>
+                    <p class="counter-text"><span id="selectedCount">0</span>/3 selected · Learning styles</p>
+                    
+                    <div class="pill-container">
+                        <button type="button" class="style-pill" data-style="Visual learning">Visual learning</button>
+                        <button type="button" class="style-pill" data-style="Practice-based">Practice-based</button>
+                        <button type="button" class="style-pill" data-style="Reading">Reading</button>
+                        <button type="button" class="style-pill" data-style="Videos">Videos</button>
+                        <button type="button" class="style-pill" data-style="Experiments">Experiments</button>
+                        <button type="button" class="style-pill" data-style="Discussions">Discussions</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Bottom Footer Action Bar -->
+            <div class="card footer-action-bar">
+                <button type="button" class="btn-save-draft" id="saveDraftBtn">
+                    <i class="fa-regular fa-bookmark"></i> Save Draft
+                </button>
+                <button type="submit" class="btn-continue" id="submitBtn">
+                    Continue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Main JavaScript file containing Firebase logic -->
+    <script type="module" src="profile.js"></script>
+</body>
+</html>
